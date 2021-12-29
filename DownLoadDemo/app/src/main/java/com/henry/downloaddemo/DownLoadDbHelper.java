@@ -35,7 +35,7 @@ public class DownLoadDbHelper extends SQLiteOpenHelper {
      * 插入一条下载信息
      */
     public void insertData(SQLiteDatabase db, DownLoadFileInfo info) {
-        String sql = String.format(Locale.CHINA, "insert into %s values ('%s', '%s', %d, %d)",
+        String sql = String.format(Locale.CHINA, "insert into '%s' values ('%s', '%s', %d, %d)",
                 TABLE_NAME, info.getFileName(), info.getUrl(), info.getLength(), info.getFinished());
         db.execSQL(sql);
     }
@@ -44,7 +44,7 @@ public class DownLoadDbHelper extends SQLiteOpenHelper {
      * 是否已经插入这条数据
      */
     public boolean isExist(SQLiteDatabase db, DownLoadFileInfo info) {
-        String sql = String.format(Locale.CHINA, "select * from %s where url=?", TABLE_NAME);
+        String sql = String.format(Locale.CHINA, "select * from '%s' where url=?", TABLE_NAME);
         Cursor cursor = db.rawQuery(sql, new String[]{info.getUrl()});
         boolean exist = cursor.moveToNext();
         cursor.close();
@@ -57,7 +57,7 @@ public class DownLoadDbHelper extends SQLiteOpenHelper {
      */
     @SuppressLint("Range")
     public DownLoadFileInfo queryData(SQLiteDatabase db, String url) {
-        String sql = String.format(Locale.CHINA, "select * from %s where url=?", TABLE_NAME);
+        String sql = String.format(Locale.CHINA, "select * from '%s' where url=?", TABLE_NAME);
         Cursor cursor = db.rawQuery(sql, new String[]{url});
         DownLoadFileInfo downLoadFileInfo = new DownLoadFileInfo();
         if (cursor != null) {
@@ -80,7 +80,7 @@ public class DownLoadDbHelper extends SQLiteOpenHelper {
      * 恢复一条下载信息
      */
     public void resetData(SQLiteDatabase db, String url) {
-        String sql = String.format(Locale.CHINA, "update %s set length=0,finished=0 where url=%s", TABLE_NAME, url);
+        String sql = String.format(Locale.CHINA, "update '%s' set length=0,finished=0 where url='%s'", TABLE_NAME, url);
         db.execSQL(sql);
     }
 
@@ -89,7 +89,7 @@ public class DownLoadDbHelper extends SQLiteOpenHelper {
      * 更新下载信息
      */
     public void updateData(SQLiteDatabase db, DownLoadFileInfo info) {
-        String sql = String.format(Locale.CHINA, "update %s set fileName=%s,url=%s,length=%d,finished=%d where url=%s",
+        String sql = String.format(Locale.CHINA, "update '%s' set fileName='%s',url='%s',length=%d,finished=%d where url='%s'",
                 TABLE_NAME, info.getFileName(), info.getUrl(), info.getLength(), info.getFinished(), info.getUrl());
         db.execSQL(sql);
     }

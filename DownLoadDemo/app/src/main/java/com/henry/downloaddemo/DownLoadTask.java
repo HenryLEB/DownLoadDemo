@@ -56,7 +56,7 @@ public class DownLoadTask extends Thread {
             finished += info.getFinished();
             if (connection.getResponseCode() == 206) {//文件部分下载，返回码为206
                 InputStream is = connection.getInputStream();
-                byte[] buffer = new byte[1024 * 10];
+                byte[] buffer = new byte[1024 * 8];
                 int len;
                 while ((len = is.read(buffer)) != -1) {
                     //写入文件

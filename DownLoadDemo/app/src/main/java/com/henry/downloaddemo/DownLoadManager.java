@@ -33,7 +33,10 @@ public class DownLoadManager {
             if (instance != null)
                 return instance;
             else synchronized (DownLoadManager.class) {
-                instance = new DownLoadManager(context, dbHelper, progressListener);
+                if (instance != null)
+                    return instance;
+                else
+                    instance = new DownLoadManager(context, dbHelper, progressListener);
             }
             return instance;
         }
@@ -47,6 +50,7 @@ public class DownLoadManager {
      * 开始下载任务
      */
     public void start(String url) {
+        db = helper.getReadableDatabase();
         DownLoadFileInfo info = helper.queryData(db, url);
         map.put(url, info);
         new DownLoadTask(map.get(url), helper, listener).start();
@@ -72,6 +76,7 @@ public class DownLoadManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        db = helper.getWritableDatabase();
         helper.resetData(db, url);
         start(url);
     }
